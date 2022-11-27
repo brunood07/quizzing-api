@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  database_boilerplate:
+    image: postgres
+    container_name: database_boilerplate
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=boilerplate
+      - POSTGRES_DB=api-boilerplate
+    volumes:
+      - pgdata:/data/postgres
+
+  app:
+    build: .
+    container_name: api-boilerplate
+    ports:
+      - 443:443
+    volumes:
+      - .:/usr/app
+    links:
+      - database_boilerplate
+    depends_on:
+      - database_boilerplate
+
+volumes:
+  pgdata:
+    driver: local
