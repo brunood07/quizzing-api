@@ -4,6 +4,6 @@ export default {
   expiresInToken: '15m',
   secretRefreshToken:
     'e3fe54b32701bff69c475c58ff7884b94bd722f8c56e5e37cae49be89b28789b56a4ee1883ba7a00f74d9d296974b4849a146f5c38677f0958067201fb3a511a',
-  expiresInRefreshToken: '30d',
+  expiresInRefreshToken: 30,
   expiresRefreshTokenDays: 30
 };

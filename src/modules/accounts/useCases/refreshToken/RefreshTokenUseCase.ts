@@ -24,7 +24,15 @@ class RefreshTokenUseCase {
   ) {}
 
   async execute(token: string): Promise<ITokenResponse> {
-    const { email, sub } = verify(token, auth.secretRefreshToken) as IPayload;
+    const {
+      secretRefreshToken,
+      expiresRefreshTokenDays,
+      secretToken,
+      expiresInToken,
+      expiresInRefreshToken
+    } = auth;
+
+    const { email, sub } = verify(token, secretRefreshToken) as IPayload;
 
     const userId = sub;
 
@@ -40,12 +48,12 @@ class RefreshTokenUseCase {
 
     await this.usersTokensRepository.deleteById(userToken.id);
 
-    const refreshToken = sign({ email }, auth.secretRefreshToken, {
+    const refreshToken = sign({ email }, secretRefreshToken, {
       subject: String(sub),
-      expiresIn: auth.expiresInRefreshToken
+      expiresIn: expiresInRefreshToken
     });
 
-    const expiresDate = addDays(auth.expiresRefreshTokenDays);
+    const expiresDate = addDays(expiresRefreshTokenDays);
 
     await this.usersTokensRepository.create({
       expiresDate,
@@ -53,9 +61,9 @@ class RefreshTokenUseCase {
       userId
     });
 
-    const newToken = sign({}, auth.secretToken, {
+    const newToken = sign({}, secretToken, {
       subject: String(userId),
-      expiresIn: auth.expiresInToken
+      expiresIn: expiresInToken
     });
 
     return {

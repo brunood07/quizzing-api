@@ -12,6 +12,6 @@ const sessionRefresh = new RefreshTokenController();
 
 usersRoutes.post('/', createUser.handle);
 usersRoutes.post('/login', login.handle);
-usersRoutes.post('/session-refresh', sessionRefresh.handle);
+usersRoutes.post('/refresh', sessionRefresh.handle);
 
 export { usersRoutes };

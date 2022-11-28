@@ -21,6 +21,7 @@ model User {
   phoneNumber String
   score       Int
   UserTokens  UserTokens[]
+  isAdmin     Boolean      @default(false)
   createdAt   DateTime     @default(now())
 
   @@map("user")

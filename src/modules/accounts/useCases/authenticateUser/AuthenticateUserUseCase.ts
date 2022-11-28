@@ -9,12 +9,17 @@ import {
 import { IUsersRepository } from '../../repositories/IUsersRepository';
 import { AppError } from '../../../../shared/errors/AppError';
 import auth from '../../../../config/auth';
+import { IUsersTokensRepository } from '../../repositories/IUsersTokensRepository';
+import { addDays } from '../../../../helpers/Date';
 
 @injectable()
 export class AuthenticateUserUseCase {
   constructor(
     @inject('UsersRepository')
-    private usersRepository: IUsersRepository
+    private usersRepository: IUsersRepository,
+
+    @inject('UsersTokensRepository')
+    private usersTokensRepository: IUsersTokensRepository
   ) {}
 
   execute = async ({
@@ -27,12 +32,16 @@ export class AuthenticateUserUseCase {
       secretToken,
       secretRefreshToken
     } = auth;
+    console.log(
+      '🚀 ~ file: AuthenticateUserUseCase.ts ~ line 35 ~ AuthenticateUserUseCase ~ expiresInRefreshToken',
+      expiresInRefreshToken
+    );
 
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) throw new AppError('Email or password incorrect');
 
-    const passwordMatch = compare(password, user.password);
+    const passwordMatch = await compare(password, user.password);
 
     if (!passwordMatch) throw new AppError('Email or password incorrect');
 
@@ -44,6 +53,14 @@ export class AuthenticateUserUseCase {
     const refreshToken = sign({ email }, secretRefreshToken, {
       subject: user.id,
       expiresIn: expiresInRefreshToken
+    });
+
+    const refreshTokenExpiresDate = addDays(expiresInRefreshToken);
+
+    await this.usersTokensRepository.create({
+      userId: user.id,
+      refreshToken,
+      expiresDate: refreshTokenExpiresDate
     });
 
     const tokenReturn = {

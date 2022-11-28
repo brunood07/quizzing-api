@@ -6,7 +6,7 @@ export class UsersRepositoryInMemory implements IUsersRepository {
   users: User[] = [];
 
   create(data: CreateUserDTO): Promise<User> {
-    const user = { id: String(Math.random()), ...data };
+    const user = { id: String(Math.random()), createdAt: new Date(), ...data };
 
     this.users.push(user);
 
