@@ -20,7 +20,9 @@ describe('Create a new user', () => {
       email: 'teste@teste.com',
       dateOfBirth: '01/01/1969',
       document: '11111111111',
-      password: 'teste123'
+      password: 'teste123',
+      phoneNumber: '13981626268',
+      score: 0
     });
 
     expect(user).toHaveProperty('id');
@@ -33,7 +35,9 @@ describe('Create a new user', () => {
       email: 'teste@teste.com',
       dateOfBirth: '01/01/1969',
       document: '11111111111',
-      password: 'teste123'
+      password: 'teste123',
+      phoneNumber: '13981626268',
+      score: 0
     });
 
     await expect(
@@ -43,7 +47,9 @@ describe('Create a new user', () => {
         email: 'teste2@teste.com',
         dateOfBirth: '01/01/1969',
         document: '11111111111',
-        password: 'teste123'
+        password: 'teste123',
+        phoneNumber: '13981626268',
+        score: 0
       })
     ).rejects.toEqual(new AppError('Client already exists'));
   });
@@ -55,7 +61,9 @@ describe('Create a new user', () => {
       email: 'teste@teste.com',
       dateOfBirth: '01/01/1969',
       document: '11111111111',
-      password: 'teste123'
+      password: 'teste123',
+      phoneNumber: '13981626268',
+      score: 0
     });
 
     await expect(
@@ -65,7 +73,9 @@ describe('Create a new user', () => {
         email: 'teste@teste.com',
         dateOfBirth: '01/01/1969',
         document: '11111111112',
-        password: 'teste123'
+        password: 'teste123',
+        phoneNumber: '13981626268',
+        score: 0
       })
     ).rejects.toEqual(new AppError('Client already exists'));
   });

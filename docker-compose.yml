@@ -1,30 +1,18 @@
 version: '3.9'
 
 services:
-  database_boilerplate:
+  database_quizzing:
     image: postgres
-    container_name: database_boilerplate
+    container_name: database_quizzing
     restart: always
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_USER=docker
+      - POSTGRES_USER=quizzing
       - POSTGRES_PASSWORD=boilerplate
-      - POSTGRES_DB=api-boilerplate
+      - POSTGRES_DB=api-quizzing
     volumes:
       - pgdata:/data/postgres
-
-  app:
-    build: .
-    container_name: api-boilerplate
-    ports:
-      - 443:443
-    volumes:
-      - .:/usr/app
-    links:
-      - database_boilerplate
-    depends_on:
-      - database_boilerplate
 
 volumes:
   pgdata:

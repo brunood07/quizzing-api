@@ -11,11 +11,50 @@ datasource db {
 }
 
 model User {
-  id          String @id @default(uuid())
+  id          String       @id @unique @default(uuid())
   firstName   String
   lastName    String
-  email       String @unique
+  email       String       @unique
   dateOfBirth String
-  document    String @unique
+  document    String       @unique
   password    String
+  phoneNumber String
+  score       Int
+  UserTokens  UserTokens[]
+  createdAt   DateTime     @default(now())
+
+  @@map("user")
+}
+
+model UserTokens {
+  id           String   @id @unique @default(uuid())
+  refreshToken String
+  user         User     @relation(fields: [userId], references: [id])
+  userId       String
+  expiresDate  DateTime
+  createdAt    DateTime @default(now())
+
+  @@map("userTokens")
+}
+
+model QuizzCategory {
+  id            String          @id @unique @default(uuid())
+  name          String          @unique
+  QuizzQuestion QuizzQuestion[]
+
+  @@map("quizzCategory")
+}
+
+model QuizzQuestion {
+  id              String        @id @unique @default(uuid())
+  question        String
+  answerA         String
+  answerB         String
+  answerC         String
+  answerD         String
+  correctAnswer   String
+  category        QuizzCategory @relation(fields: [quizzCategoryId], references: [id])
+  quizzCategoryId String
+
+  @@map("quizzQuestion")
 }

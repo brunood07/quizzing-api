@@ -5,7 +5,9 @@ export type CreateUserDTO = {
   dateOfBirth: string;
   document: string;
   email: string;
+  phoneNumber: string;
   password: string;
+  score: number;
 };
 
 export type UserResponse = {
@@ -15,5 +17,7 @@ export type UserResponse = {
   dateOfBirth: string;
   document: string;
   email: string;
+  phoneNumber: string;
   password?: string;
+  score: number;
 };

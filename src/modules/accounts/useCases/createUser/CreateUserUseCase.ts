@@ -1,3 +1,4 @@
+import { hash } from 'bcryptjs';
 import { inject, injectable } from 'tsyringe';
 
 import { User } from '@prisma/client';
@@ -22,7 +23,13 @@ export class CreateUserUseCase {
       throw new AppError('Client already exists');
     }
 
-    const userRegister = await this.usersRepository.create(data);
+    const passwordHash = await hash(data.password, 8);
+
+    const userRegister = await this.usersRepository.create({
+      ...data,
+      password: passwordHash,
+      score: 0
+    });
 
     return userRegister;
   };
