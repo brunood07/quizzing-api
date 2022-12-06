@@ -18,7 +18,6 @@ model User {
   dateOfBirth String
   document    String       @unique
   password    String
-  phoneNumber String
   score       Int
   UserTokens  UserTokens[]
   isAdmin     Boolean      @default(false)
