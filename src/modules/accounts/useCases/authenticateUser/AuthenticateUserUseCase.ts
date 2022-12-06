@@ -32,10 +32,6 @@ export class AuthenticateUserUseCase {
       secretToken,
       secretRefreshToken
     } = auth;
-    console.log(
-      '🚀 ~ file: AuthenticateUserUseCase.ts ~ line 35 ~ AuthenticateUserUseCase ~ expiresInRefreshToken',
-      expiresInRefreshToken
-    );
 
     const user = await this.usersRepository.findByEmail(email);
 
