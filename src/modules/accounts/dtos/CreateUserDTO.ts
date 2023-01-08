@@ -5,6 +5,7 @@ export type CreateUserDTO = {
   dateOfBirth: string;
   document: string;
   email: string;
+  isAdmin: boolean;
   password: string;
   score: number;
 };
@@ -16,6 +17,7 @@ export type UserResponse = {
   dateOfBirth: string;
   document: string;
   email: string;
+  isAdmin: boolean;
   password?: string;
   score: number;
 };

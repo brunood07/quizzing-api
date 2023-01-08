@@ -5,16 +5,7 @@ import auth from '../../../../config/auth';
 import { IUsersTokensRepository } from '../../repositories/IUsersTokensRepository';
 import { AppError } from '../../../../shared/errors/AppError';
 import { addDays } from '../../../../helpers/Date';
-
-interface IPayload {
-  sub: string;
-  email: string;
-}
-
-interface ITokenResponse {
-  token: string;
-  refreshToken: string;
-}
+import { IPayload, ITokenResponse } from './RefreshToken.types';
 
 @injectable()
 class RefreshTokenUseCase {
@@ -31,6 +22,10 @@ class RefreshTokenUseCase {
       expiresInToken,
       expiresInRefreshToken
     } = auth;
+
+    if (token === '') {
+      throw new AppError('Token not provided!');
+    }
 
     const { email, sub } = verify(token, secretRefreshToken) as IPayload;
 
